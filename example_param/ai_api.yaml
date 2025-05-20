@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: AI Response API
+  description: API lấy response của AI dựa trên input từ người dùng và cấu hình ElasticSearch.
+  version: "1.0.0"
+servers:
+  - url: https://your-api-domain.com
+paths:
+  /get-ai-response:
+    get:
+      summary: Lấy response từ AI
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Câu hỏi hoặc truy vấn từ người dùng.
+        - name: system_prompt
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Prompt hệ thống để định hướng AI.
+        - name: his_message
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+            style: form
+            explode: true
+          description: Lịch sử hội thoại trước đó (list các tin nhắn).
+        - name: es_cloud_id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Elastic Cloud ID để kết nối đến ElasticSearch.
+        - name: es_username
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Tên người dùng ElasticSearch.
+        - name: es_password
+          in: query
+          required: true
+          schema:
+            type: string
+            format: password
+          description: Mật khẩu ElasticSearch.
+        - name: index
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Tên chỉ mục trong ElasticSearch để truy vấn.
+      responses:
+        '200':
+          description: Chuỗi phản hồi từ AI.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    example: "Đây là phản hồi từ AI."
+        '400':
+          description: Thiếu hoặc sai định dạng input.
+        '500':
+          description: Lỗi nội bộ máy chủ.
