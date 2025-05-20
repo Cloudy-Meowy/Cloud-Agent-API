@@ -1,3 +1,5 @@
 agent_cloud
 .env
 data/*  
+cloud-agent
+*.pyc

@@ -9,12 +9,20 @@ import os
 from glob import glob
 
 def call_llm(prompt: str, system_prompt: str, rag_information: str, history: list, model: str="gpt-4o-mini"):
-    client = OpenAI()
-    response = client.chat.completions.create(  
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    structured_prompt = f"""
+    The previsous conversation is as follows:
+    {history.__str__()}
+    The following is the relevant information retrieved from the database:
+    {rag_information}
+    The user query is:
+    {prompt}
+    """
+    response = client.chat.completions.create(
         model='gpt-4o-mini',
         messages=[
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": prompt},
+            {"role": "user", "content": structured_prompt},
         ]
     )
     return response.choices[0].message.content
@@ -38,7 +46,7 @@ def call_rag(query: str, es_cloud_id: str, es_username: str, es_password: str, i
 def call_agent(
     query: str,
     system_prompt: str,
-    his_messages: list,
+    his_message: list,
     es_cloud_id: str,
     es_username: str,
     es_password: str,
@@ -48,7 +56,7 @@ def call_agent(
     rag_information = call_rag(query, es_cloud_id, es_username, es_password, index)
 
     # Call the LLM function with the query and the relevant information
-    response = call_llm(query, system_prompt, rag_information, his_messages)
+    response = call_llm(query, system_prompt, rag_information, his_message)
     return response
 
 
