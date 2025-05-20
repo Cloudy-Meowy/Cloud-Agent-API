@@ -11,12 +11,13 @@ from glob import glob
 def call_llm(prompt: str, system_prompt: str, rag_information: str, history: list, model: str="gpt-4o-mini"):
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     structured_prompt = f"""
-    The previsous conversation is as follows:
-    {history.__str__()}
-    The following is the relevant information retrieved from the database:
-    {rag_information}
-    The user query is:
+    Đây là nội dung cuộc hội thoại trước đó:
+    {history.__str__()}\n
+    Đây là thông tin truy vấn được:
+    {rag_information}\n
+    Đây là câu query tiếp theo của user:
     {prompt}
+    Trả lời:
     """
     response = client.chat.completions.create(
         model='gpt-4o-mini',

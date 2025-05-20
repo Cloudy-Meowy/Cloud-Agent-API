@@ -3,3 +3,5 @@ agent_cloud
 data/*  
 cloud-agent
 *.pyc
+cloud_run
+cloud_run.zip
