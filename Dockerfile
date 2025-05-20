@@ -18,4 +18,4 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 EXPOSE 5000
 
 # Run the app
-CMD ["python", "main.py"]
+CMD ["python", "app.py"]
