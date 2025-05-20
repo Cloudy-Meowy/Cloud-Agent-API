@@ -2,7 +2,7 @@ import requests
 
 # URL của API Flask
 url = "http://127.0.0.1:5000/get-ai-response"
-
+url_cloud = "https://cloud-agent-api-169359779066.asia-east1.run.app/get-ai-response"
 # Dữ liệu test
 param = {
     "query": "nêu những điểm quan trọng nhất về luật lao động",
@@ -15,7 +15,7 @@ param = {
 }
 
 # Gửi request GET
-response = requests.get(url, params=param)
+response = requests.get(url_cloud, params=param)
 
 # In kết quả
 print("Status code:", response.status_code)
